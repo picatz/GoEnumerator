@@ -1,9 +1,9 @@
 # GoEnumerator
-A tool wrote in GO for pasive enumeration of a target
+A tool wrote in GO for very fast pasive enumeration of a target
 
 ---
-build:  
--go build
+Build:  
+- go build
 
 Run:  
 - GoEnumerator <ip>
