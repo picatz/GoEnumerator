@@ -6,4 +6,4 @@ Build:
 - go build
 
 Run:  
-- GoEnumerator <ip>
+- GoEnumerator 127.0.0.1
