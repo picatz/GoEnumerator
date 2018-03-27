@@ -6,11 +6,11 @@ import (
 	"strconv"
 )
 
-func isHTTP(ipToScan string, openPorts []int, webServer []int) []int {
+func isHTTP(TargetToScan string, openPorts []int, webServer []int) []int {
 
 	for _, port := range openPorts {
 
-		url := "http://" + ipToScan + ":" + strconv.Itoa(port)
+		url := "http://" + TargetToScan + ":" + strconv.Itoa(port)
 
 		_, err := http.Get(url)
 

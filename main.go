@@ -27,7 +27,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	ipToScan := os.Args[1]
+	TargetToScan := os.Args[1]
 
 	file, _ := os.Open("conf.json")
 	defer file.Close()
@@ -38,14 +38,26 @@ func main() {
 		fmt.Println("error:", err)
 	}
 
-	fmt.Println("About to portmap ip: ", ipToScan)
+	// Create output directory
+	if _, err := os.Stat(TargetToScan); os.IsNotExist(err) {
+		os.Mkdir(TargetToScan, 0750)
+	}
+
+	fmt.Println("About to portmap ip: ", TargetToScan)
 	fmt.Println(Config.DicWeb, Config.Threads)
-	portScan(ipToScan, openPorts)
-	webServer = isHTTP(ipToScan, openPorts, webServer)
+	portScan(TargetToScan, openPorts)
+	webServer = isHTTP(TargetToScan, openPorts, webServer)
 
 	if len(webServer) > 0 {
+		var url string
 		for _, port := range webServer {
-			url := "http://" + ipToScan + ":" + strconv.Itoa(port)
+			if port == 443 {
+				url = "https://" + TargetToScan + ":" + strconv.Itoa(port)
+			} else {
+				url = "http://" + TargetToScan + ":" + strconv.Itoa(port)
+			}
+			getHeaders(url)
+			getURLS(url)
 			webBuster(url, Config.DicWeb, Config.Threads)
 		}
 	}
