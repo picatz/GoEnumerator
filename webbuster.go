@@ -36,11 +36,11 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	doneChannel <- true
 }
 
-func webScan(url string) {
+func webBuster(url string, dicWeb string, Threads int) {
 	// Load command line arguments
-	wordlistFilename := "/home/rek2/herramientas/diccionarios/SecLists/Discovery/Web_Content/common.txt"
+	wordlistFilename := dicWeb
 	checkIfbaseURL := url
-	maxThreads := 50
+	maxThreads := Threads
 
 	// Track how many threads are active to avoid
 	// flooding a web server

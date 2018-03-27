@@ -1,12 +1,20 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"strconv"
 )
 
 var openPorts []int
+
+// Config type Here I create custom config type
+type config struct {
+	DicWeb  string
+	DicPass string
+	Threads int
+}
 
 func main() {
 
@@ -20,14 +28,25 @@ func main() {
 	}
 
 	ipToScan := os.Args[1]
+
+	file, _ := os.Open("conf.json")
+	defer file.Close()
+	decoder := json.NewDecoder(file)
+	Config := config{}
+	err := decoder.Decode(&Config)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+
 	fmt.Println("About to portmap ip: ", ipToScan)
+	fmt.Println(Config.DicWeb, Config.Threads)
 	portScan(ipToScan, openPorts)
 	webServer = isHTTP(ipToScan, openPorts, webServer)
 
 	if len(webServer) > 0 {
 		for _, port := range webServer {
 			url := "http://" + ipToScan + ":" + strconv.Itoa(port)
-			webScan(url)
+			webBuster(url, Config.DicWeb, Config.Threads)
 		}
 	}
 }

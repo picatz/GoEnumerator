@@ -1,0 +1,5 @@
+{
+    "dicWeb": "/home/rek2/herramientas/diccionarios/SecLists/Discovery/Web_Content/common.txt",
+    "dicPass": "/home/rek2/herramientas/diccionarios/SecLists/Passwords/rockyou.txt",
+    "Threads": 50
+}
