@@ -59,6 +59,7 @@ func main() {
 			getHeaders(url)
 			getURLS(url)
 			webBuster(url, Config.DicWeb, Config.Threads)
+			getComments(url)
 		}
 	}
 }
