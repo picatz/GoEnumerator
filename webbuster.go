@@ -11,7 +11,7 @@ import (
 // Given a base URL (protocol+hostname) and a filepath (relative URL)
 // perform an HTTP HEAD and see if the path exists.
 // If the path returns a 200 OK print out the path
-func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
+func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool, TargetToScan string) {
 	// Create URL object from raw string
 	targetURL, err := url.Parse(checkIfbaseURL)
 	if err != nil {
@@ -30,13 +30,15 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	// If server returns 200 OK file can be downloaded
 	if response.StatusCode == 200 {
 		log.Println(targetURL.String())
+		// Write to file
+		writeResults(targetURL.String(), TargetToScan)
 	}
 
 	// Signal completion so next thread can start
 	doneChannel <- true
 }
 
-func webBuster(url string, dicWeb string, Threads int) {
+func webBuster(url string, dicWeb string, Threads int, TargetToScan string) {
 	// Load command line arguments
 	wordlistFilename := dicWeb
 	checkIfbaseURL := url
@@ -56,7 +58,7 @@ func webBuster(url string, dicWeb string, Threads int) {
 	// Read each line and do an HTTP HEAD
 	scanner := bufio.NewScanner(wordlistFile)
 	for scanner.Scan() {
-		go checkIfURLExists(checkIfbaseURL, scanner.Text(), doneChannel)
+		go checkIfURLExists(checkIfbaseURL, scanner.Text(), doneChannel, TargetToScan)
 		activeThreads++
 
 		// Wait until a done signal before next if max threads reached
