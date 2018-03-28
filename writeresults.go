@@ -5,15 +5,17 @@ import (
 	"os"
 )
 
-func writeResults(content string, TargetToScan string) {
+func writeResults(TargetToScan string, content []string, filename string) {
 
-	filename := TargetToScan + "/discovered"
-	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
+	filename = TargetToScan + "/" + filename
+	file, err := os.Create(filename)
 	if err != nil {
-		fmt.Printf("error opening %s: %s", filename, err)
+		fmt.Printf("Error opening %s because of: %s", filename, err)
 	}
 
 	defer file.Close()
+	for _, line := range content {
+		file.WriteString(line + "\n")
 
-	fmt.Fprintf(file, content+"\n")
+	}
 }

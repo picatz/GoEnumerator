@@ -8,6 +8,7 @@ import (
 )
 
 var openPorts []int
+var webBusterResult []string
 
 // Config type Here I create custom config type
 type config struct {
@@ -44,7 +45,6 @@ func main() {
 	}
 
 	fmt.Println("About to portmap ip: ", TargetToScan)
-	fmt.Println(Config.DicWeb, Config.Threads)
 	portScan(TargetToScan, openPorts)
 	webServer = isHTTP(TargetToScan, openPorts, webServer)
 
@@ -58,8 +58,10 @@ func main() {
 			}
 			getHeaders(url)
 			getURLS(url)
-			webBuster(url, Config.DicWeb, Config.Threads, TargetToScan)
+			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
+			writeResults(TargetToScan, webBusterResult, "webBusterResults")
 			getComments(url)
 		}
 	}
+	fmt.Printf("%v", webBusterResult)
 }
