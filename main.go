@@ -19,6 +19,11 @@ type config struct {
 	Threads   int
 }
 
+type port struct {
+	TCP    int
+	Banner string
+}
+
 func main() {
 
 	var webServer []int
@@ -48,6 +53,7 @@ func main() {
 
 	fmt.Println("About to portmap ip: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
+	//portScan(TargetToScan, Config.PortStart, Config.PortEnd, port.TCP, port.Banner)
 	writeResultsInt(TargetToScan, openPorts, "OpenPorts")
 	webServer = isHTTP(TargetToScan, openPorts, webServer)
 
