@@ -8,9 +8,9 @@ import (
 	"os"
 )
 
-// Given a base URL (protocol+hostname) and a filepath (relative URL)
 // perform an HTTP HEAD and see if the path exists.
 // If the path returns a 200 OK print out the path
+// and acumulate the string slice to use later
 func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	// Create URL object from raw string
 	targetURL, err := url.Parse(checkIfbaseURL)
