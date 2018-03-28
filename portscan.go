@@ -7,11 +7,11 @@ import (
 	"time"
 )
 
-func portScan(TargetToScan string, openPorts []int) []int {
+func portScan(TargetToScan string, PortStart int, PortEnd int, openPorts []int) []int {
 	activeThreads := 0
 	doneChannel := make(chan bool)
 
-	for port := 0; port <= 1024; port++ {
+	for port := PortStart; port <= PortEnd; port++ {
 		go grabBanner(TargetToScan, port, doneChannel)
 		activeThreads++
 	}

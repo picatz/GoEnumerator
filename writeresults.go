@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 )
 
-func writeResults(TargetToScan string, content []string, filename string) {
+func writeResultsString(TargetToScan string, content []string, filename string) {
 
 	filename = TargetToScan + "/" + filename
 	file, err := os.Create(filename)
@@ -16,6 +17,19 @@ func writeResults(TargetToScan string, content []string, filename string) {
 	defer file.Close()
 	for _, line := range content {
 		file.WriteString(line + "\n")
+	}
+}
 
+func writeResultsInt(TargetToScan string, content []int, filename string) {
+
+	filename = TargetToScan + "/" + filename
+	file, err := os.Create(filename)
+	if err != nil {
+		fmt.Printf("Error opening %s because of: %s", filename, err)
+	}
+
+	defer file.Close()
+	for _, line := range content {
+		file.WriteString(strconv.Itoa(line) + "\n")
 	}
 }

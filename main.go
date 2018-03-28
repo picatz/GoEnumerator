@@ -12,9 +12,11 @@ var webBusterResult []string
 
 // Config type Here I create custom config type
 type config struct {
-	DicWeb  string
-	DicPass string
-	Threads int
+	DicWeb    string
+	DicPass   string
+	PortStart int
+	PortEnd   int
+	Threads   int
 }
 
 func main() {
@@ -45,7 +47,8 @@ func main() {
 	}
 
 	fmt.Println("About to portmap ip: ", TargetToScan)
-	portScan(TargetToScan, openPorts)
+	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
+	writeResultsInt(TargetToScan, openPorts, "OpenPorts")
 	webServer = isHTTP(TargetToScan, openPorts, webServer)
 
 	if len(webServer) > 0 {
@@ -59,9 +62,9 @@ func main() {
 			getHeaders(url)
 			getURLS(url)
 			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
-			writeResults(TargetToScan, webBusterResult, "webBusterResults")
+			writeResultsString(TargetToScan, webBusterResult, "webBusterResults")
 			getComments(url)
 		}
 	}
-	fmt.Printf("%v", webBusterResult)
+	fmt.Printf("Enumeration done!!")
 }
