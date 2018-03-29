@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 )
 
-func getHeaders(url string) {
+func getHeaders(url string, port int) {
 
 	// Perform HTTP HEAD
 	response, err := http.Head(url)
@@ -17,5 +18,8 @@ func getHeaders(url string) {
 	// Print out each header key and value pair
 	for key, value := range response.Header {
 		fmt.Printf("%s: %s\n", key, value[0])
+		if strings.Contains(key, "Server") {
+			targetPorts[port] = value[0]
+		}
 	}
 }

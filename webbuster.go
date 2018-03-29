@@ -17,6 +17,7 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	if err != nil {
 		log.Println("Error parsing base URL. ", err)
 	}
+
 	// Set the part of the URL after the host name
 	targetURL.Path = filePath
 
@@ -27,6 +28,8 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 		log.Println("Error fetching ", targetURL.String())
 	}
 
+	// Added this to avoid a random bug "panic: runtime error: invalid memory address or nil pointer dereference"
+	defer response.Body.Close()
 	// If server returns 200 OK file can be downloaded
 	if response.StatusCode == 200 {
 		log.Println(targetURL.String())
@@ -34,7 +37,6 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 		webBusterResult = append(webBusterResult, targetURL.String())
 
 	}
-
 	// Signal completion so next thread can start
 	doneChannel <- true
 	return

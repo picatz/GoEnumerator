@@ -48,6 +48,8 @@ func grabBanner(ip string, port int, doneChannel chan bool) {
 	}
 	log.Printf("Banner from port %d\n%s\n", port,
 		buffer[0:numBytesRead])
+	// here we add to map port and banner
+	targetPorts[port] = string(buffer[0:numBytesRead])
 
 	doneChannel <- true
 	return

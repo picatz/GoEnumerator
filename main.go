@@ -9,6 +9,7 @@ import (
 
 var openPorts []int
 var webBusterResult []string
+var targetPorts = map[int]string{}
 
 // Config type Here I create custom config type
 type config struct {
@@ -17,11 +18,6 @@ type config struct {
 	PortStart int
 	PortEnd   int
 	Threads   int
-}
-
-type port struct {
-	TCP    int
-	Banner string
 }
 
 func main() {
@@ -53,7 +49,7 @@ func main() {
 
 	fmt.Println("About to portmap ip: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
-	//portScan(TargetToScan, Config.PortStart, Config.PortEnd, port.TCP, port.Banner)
+	//fmt.Println(targetPorts)
 	writeResultsInt(TargetToScan, openPorts, "OpenPorts")
 	webServer = isHTTP(TargetToScan, openPorts, webServer)
 
@@ -65,12 +61,15 @@ func main() {
 			} else {
 				url = "http://" + TargetToScan + ":" + strconv.Itoa(port)
 			}
-			getHeaders(url)
+			getHeaders(url, port)
 			getURLS(url)
-			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
-			writeResultsString(TargetToScan, webBusterResult, "webBusterResults")
 			getComments(url)
+			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
+			filename := "webBustingResultsPort" + strconv.Itoa(port)
+			writeResultsString(TargetToScan, webBusterResult, filename)
+
 		}
 	}
+	fmt.Println(targetPorts)
 	fmt.Printf("Enumeration done!!")
 }
