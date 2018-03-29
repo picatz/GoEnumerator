@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func writeResultsString(TargetToScan string, content []string, filename string) {
@@ -44,7 +45,7 @@ func writeResultsMap(TargetToScan string, content map[int]string, filename strin
 
 	defer file.Close()
 	for port, banner := range content {
-		line := strconv.Itoa(port) + " " + banner + "\n"
+		line := strconv.Itoa(port) + " " + strings.TrimSpace(banner) + "\n"
 
 		file.WriteString(line)
 	}
