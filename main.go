@@ -70,6 +70,8 @@ func main() {
 
 		}
 	}
-	fmt.Println(targetPorts)
+
+	writeResultsMap(TargetToScan, targetPorts, "banners")
 	fmt.Printf("Enumeration done!!")
+
 }

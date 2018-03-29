@@ -33,3 +33,19 @@ func writeResultsInt(TargetToScan string, content []int, filename string) {
 		file.WriteString(strconv.Itoa(line) + "\n")
 	}
 }
+
+func writeResultsMap(TargetToScan string, content map[int]string, filename string) {
+
+	filename = TargetToScan + "/" + filename
+	file, err := os.Create(filename)
+	if err != nil {
+		fmt.Printf("Error opening %s because of: %s", filename, err)
+	}
+
+	defer file.Close()
+	for port, banner := range content {
+		line := strconv.Itoa(port) + " " + banner + "\n"
+
+		file.WriteString(line)
+	}
+}
