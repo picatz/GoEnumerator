@@ -63,6 +63,7 @@ func main() {
 				url = "http://" + TargetToScan + ":" + strconv.Itoa(port)
 			}
 			getHeaders(url, port)
+			getEmails(url)
 			getURLS(url)
 			getComments(url)
 			CFile := "CommentsPort-" + strconv.Itoa(port)
