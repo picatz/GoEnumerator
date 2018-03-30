@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 	"regexp"
 )
 
@@ -14,13 +13,13 @@ func getEmails(url string) {
 	// Fetch the URL
 	response, err := http.Get(url)
 	if err != nil {
-		log.Fatal("Error fetching URL. ", err)
+		log.Println("Error fetching URL. ", err)
 	}
 
 	// Read the response
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		log.Fatal("Error reading HTTP body. ", err)
+		log.Println("Error reading HTTP body. ", err)
 	}
 
 	// Look for mailto: links using a regular expression
@@ -29,7 +28,6 @@ func getEmails(url string) {
 	if matches == nil {
 		// Clean exit if no matches found
 		fmt.Println("No emails found.")
-		os.Exit(0)
 	}
 
 	// Print all emails found
