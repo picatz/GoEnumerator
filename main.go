@@ -65,14 +65,15 @@ func main() {
 			getHeaders(url, port)
 			getURLS(url)
 			getComments(url)
+			CFile := "CommentsPort-" + strconv.Itoa(port)
+			writeResultsString(TargetToScan, targetComments, CFile)
 			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
-			filename := "webBustingResultsPort" + strconv.Itoa(port)
-			writeResultsString(TargetToScan, webBusterResult, filename)
+			WBFile := "webBustingResultsPort-" + strconv.Itoa(port)
+			writeResultsString(TargetToScan, webBusterResult, WBFile)
 
 		}
 	}
 
-	writeResultString(TargetToScan, targetComments, "targetComments")
 	writeResultsMap(TargetToScan, targetPorts, "banners")
 	fmt.Printf("Enumeration done!!")
 
