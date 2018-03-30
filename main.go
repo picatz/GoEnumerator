@@ -89,7 +89,7 @@ func main() {
 		}
 	}
 
-	writeResultsMap(TargetToScan, targetPorts, "banners")
+	writeResultsMap(TargetToScan, targetPorts, "Banners")
 	fmt.Printf("Enumeration done!!")
 
 }
