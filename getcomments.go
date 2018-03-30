@@ -30,6 +30,8 @@ func getComments(url string) {
 
 	// Print all HTML comments found
 	for _, match := range matches {
-		fmt.Println(match)
+		fmt.Println("Got an html comment")
+		//fmt.Println(match)
+		targetComments = append(targetComments, match)
 	}
 }

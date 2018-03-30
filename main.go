@@ -10,6 +10,7 @@ import (
 var openPorts []int
 var webBusterResult []string
 var targetPorts = map[int]string{}
+var targetComments []string
 
 // Config type Here I create custom config type
 type config struct {
@@ -47,7 +48,7 @@ func main() {
 		os.Mkdir(TargetToScan, 0750)
 	}
 
-	fmt.Println("About to portmap ip: ", TargetToScan)
+	fmt.Println("About to portmap target: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
 	//fmt.Println(targetPorts)
 	writeResultsInt(TargetToScan, openPorts, "OpenPorts")
@@ -71,6 +72,7 @@ func main() {
 		}
 	}
 
+	writeResultString(TargetToScan, targetComments, "targetComments")
 	writeResultsMap(TargetToScan, targetPorts, "banners")
 	fmt.Printf("Enumeration done!!")
 
