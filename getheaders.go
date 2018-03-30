@@ -18,6 +18,8 @@ func getHeaders(url string, port int) {
 	// Print out each header key and value pair
 	for key, value := range response.Header {
 		fmt.Printf("Got a header...")
+		headerLine := key + " " + value[0]
+		targetHeaders = append(targetHeaders, headerLine)
 		//fmt.Printf("%s: %s\n", key, value[0])
 		if strings.Contains(key, "Server") {
 			targetPorts[port] = value[0]

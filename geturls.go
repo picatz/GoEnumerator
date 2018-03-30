@@ -33,5 +33,6 @@ func getURLS(url string) {
 	// Print all emails found
 	for _, match := range matches {
 		fmt.Println(match)
+		targetURLS = append(targetURLS, match)
 	}
 }

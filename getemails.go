@@ -36,5 +36,6 @@ func getEmails(url string) {
 		// by performing a slice operation to extract the substring
 		cleanedMatch := match[8 : len(match)-1]
 		fmt.Println(cleanedMatch)
+		targetEmails = append(targetEmails, cleanedMatch)
 	}
 }

@@ -7,10 +7,14 @@ import (
 	"strconv"
 )
 
+//globa variables
 var openPorts []int
 var webBusterResult []string
 var targetPorts = map[int]string{}
 var targetComments []string
+var targetURLS []string
+var targetEmails []string
+var targetHeaders []string
 
 // Config type Here I create custom config type
 type config struct {
@@ -63,11 +67,21 @@ func main() {
 				url = "http://" + TargetToScan + ":" + strconv.Itoa(port)
 			}
 			getHeaders(url, port)
+			HFile := "HeadersPort-" + strconv.Itoa(port)
+			writeResultsString(TargetToScan, targetHeaders, HFile)
+
 			getEmails(url)
+			EFile := "EmailsPort-" + strconv.Itoa(port)
+			writeResultsString(TargetToScan, targetEmails, EFile)
+
 			getURLS(url)
+			UFile := "URLSPort-" + strconv.Itoa(port)
+			writeResultsString(TargetToScan, targetURLS, UFile)
+
 			getComments(url)
 			CFile := "CommentsPort-" + strconv.Itoa(port)
 			writeResultsString(TargetToScan, targetComments, CFile)
+
 			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
 			WBFile := "webBustingResultsPort-" + strconv.Itoa(port)
 			writeResultsString(TargetToScan, webBusterResult, WBFile)
