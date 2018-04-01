@@ -17,7 +17,7 @@ Run:
 
 
 Todo:
-- Add CVE feed https://nvd.nist.gov/vuln/data-feeds#JSON_FEED
+- Add CVE feed https://nvd.nist.gov/vuln/data-feeds#JSON_FEED[Working on that now]
 - Scan results based on banner and other fingerprinting against CVE's[Almost there]
 - make data enumerated available to all diff scans and checks.
 - Create report out of tmp files
