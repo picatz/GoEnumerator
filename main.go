@@ -23,6 +23,7 @@ type config struct {
 	PortStart int
 	PortEnd   int
 	Threads   int
+	Year      int
 }
 
 func main() {
@@ -52,6 +53,16 @@ func main() {
 		os.Mkdir(TargetToScan, 0750)
 	}
 
+	// Create CVE directory
+	if _, err := os.Stat("CVE"); os.IsNotExist(err) {
+		os.Mkdir("CVE", 0755)
+	}
+
+	for year := Config.Year; year >= 2010; year-- {
+		if _, err := os.Stat("CVE/" + strconv.Itoa(year)); os.IsNotExist(err) {
+			go getCVE(strconv.Itoa(year))
+		}
+	}
 	fmt.Println("About to portmap target: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
 	//fmt.Println(targetPorts)

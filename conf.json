@@ -3,5 +3,6 @@
     "dicPass": "/home/rek2/herramientas/diccionarios/SecLists/Passwords/rockyou.txt",
     "portStart": 0,
     "portEnd": 10000,
-    "Threads": 50
+    "Threads": 50,
+    "Year": 2018
 }

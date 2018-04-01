@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"github.com/PuerkitoBio/goquery"
 	"log"
 	"net/http"
-	"regexp"
 )
 
 func getURLS(url string) {
@@ -16,23 +15,18 @@ func getURLS(url string) {
 		log.Println("Error fetching URL. ", err)
 	}
 
-	// Read the response
-	body, err := ioutil.ReadAll(response.Body)
+	// Extract all links
+	doc, err := goquery.NewDocumentFromReader(response.Body)
 	if err != nil {
-		log.Println("Error reading HTTP body. ", err)
+		log.Println("Error loading HTTP response body. ", err)
 	}
 
-	// Look for mailto: links using a regular expression
-	re := regexp.MustCompile("(http|https|ftp).*")
-	matches := re.FindAllString(string(body), -1)
-	if matches == nil {
-		// Clean exit if no matches found
-		fmt.Println("No URL's found")
-	}
-
-	// Print all emails found
-	for _, match := range matches {
-		fmt.Println(match)
-		targetURLS = append(targetURLS, match)
-	}
+	// Find and print all links
+	doc.Find("a").Each(func(i int, s *goquery.Selection) {
+		href, exists := s.Attr("href")
+		if exists {
+			fmt.Println(href)
+			targetURLS = append(targetURLS, href)
+		}
+	})
 }
