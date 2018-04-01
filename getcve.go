@@ -2,6 +2,7 @@ package main
 
 import (
 	"compress/gzip"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -12,14 +13,16 @@ func getCVE(Year string) {
 
 	fileURL := "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-" + Year + ".json.gz"
 	targetDIR := "CVE/"
-	Gfile := "CVE/nvdcve-1.0-" + Year + ".json.gz"
-	err := DownloadFile(Gfile, fileURL)
+	Gfile := "nvdcve-1.0-" + Year + ".json.gz"
+	Uname := "nvdcve-1.0-" + Year + ".json"
+	Destination := targetDIR + Gfile
+	err := DownloadFile(Destination, fileURL)
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(Gile)
-	error := DecompressFile(Gfile, targetDIR)
+	fmt.Println(Gfile)
+	error := DecompressFile(Uname, targetDIR, Destination)
 	if err != nil {
 		panic(error)
 	}
@@ -54,9 +57,9 @@ func DownloadFile(filepath string, url string) error {
 }
 
 // DecompressFile  here we decompress downloaded gzip files
-func DecompressFile(FileName string, target string) error {
+func DecompressFile(FileName string, target string, Destination string) error {
 
-	reader, err := os.Open(FileName)
+	reader, err := os.Open(Destination)
 	if err != nil {
 		return err
 	}
@@ -67,9 +70,10 @@ func DecompressFile(FileName string, target string) error {
 		return err
 	}
 	defer archive.Close()
-
-	target = filepath.Join(target, archive.Name)
-	fmt.Prinln(target)
+	fmt.Println(target)
+	target = filepath.Join(target, FileName)
+	fmt.Println(target)
+	fmt.Println(archive.Name)
 	writer, err := os.Create(target)
 	if err != nil {
 		return err
