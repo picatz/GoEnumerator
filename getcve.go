@@ -1,18 +1,27 @@
 package main
 
 import (
+	"compress/gzip"
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 func getCVE(Year string) {
 
 	fileURL := "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-" + Year + ".json.gz"
-
-	err := DownloadFile("CVE/nvdcve-1.0-"+Year+".json.gz", fileURL)
+	targetDIR := "CVE/"
+	Gfile := "CVE/nvdcve-1.0-" + Year + ".json.gz"
+	err := DownloadFile(Gfile, fileURL)
 	if err != nil {
 		panic(err)
+	}
+
+	fmt.Println(Gile)
+	error := DecompressFile(Gfile, targetDIR)
+	if err != nil {
+		panic(error)
 	}
 
 }
@@ -42,4 +51,31 @@ func DownloadFile(filepath string, url string) error {
 	}
 
 	return nil
+}
+
+// DecompressFile  here we decompress downloaded gzip files
+func DecompressFile(FileName string, target string) error {
+
+	reader, err := os.Open(FileName)
+	if err != nil {
+		return err
+	}
+	defer reader.Close()
+
+	archive, err := gzip.NewReader(reader)
+	if err != nil {
+		return err
+	}
+	defer archive.Close()
+
+	target = filepath.Join(target, archive.Name)
+	fmt.Prinln(target)
+	writer, err := os.Create(target)
+	if err != nil {
+		return err
+	}
+	defer writer.Close()
+
+	_, err = io.Copy(writer, archive)
+	return err
 }
