@@ -22,3 +22,4 @@ Todo:
 - make data enumerated available to all diff scans and checks.
 - Create report out of tmp files
 - Create HTMl/PDF reports
+- Add option to dirbust recursevely, not sure of this yet.
