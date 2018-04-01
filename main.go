@@ -59,7 +59,7 @@ func main() {
 	}
 
 	for year := Config.Year; year >= 2010; year-- {
-		if _, err := os.Stat("CVE/" + strconv.Itoa(year)); os.IsNotExist(err) {
+		if _, err := os.Stat("CVE/nvdcve-1.0-" + strconv.Itoa(year) + ".json.gz"); os.IsNotExist(err) {
 			go getCVE(strconv.Itoa(year))
 		}
 	}
@@ -101,6 +101,9 @@ func main() {
 	}
 
 	writeResultsMap(TargetToScan, targetPorts, "Banners")
-	fmt.Printf("Enumeration done!!")
+	fmt.Println("Enumeration done!!")
+	fmt.Printf("Check the output files inside directory: %s \n", TargetToScan)
+	fmt.Println("GoEnumerator by ReK2 and the Hispagatos Hacker collective")
+	fmt.Println("GPL v3.0, 2018 check the LICENSE file for details")
 
 }
