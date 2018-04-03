@@ -153,12 +153,23 @@ func main() {
 		}
 	}
 
+	CVEParse := CVEParse{}
 	for year := Config.Year; year >= Config.YearStart; year-- {
 
 		JSONFile := Config.CVEPath + "/nvdcve-1.0-" + strconv.Itoa(year) + ".json"
-		fmt.Println(JSONFile)
-		//
+		fmt.Println("Parsin: " + JSONFile)
+
+		file, err := os.Open(JSONFile)
+		if err != nil {
+			fmt.Println("error:", err)
+		}
+		defer file.Close()
+
+		decoder := json.NewDecoder(file)
+		decoder.Decode(&CVEParse)
 	}
+
+	fmt.Println(CVEParse.CVEItems.CVEDataMeta.ID)
 
 	fmt.Println("About to portmap target: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
