@@ -23,7 +23,9 @@ type config struct {
 	PortStart int
 	PortEnd   int
 	Threads   int
+	CVEPath   string
 	Year      int
+	YearStart int
 }
 
 // CVEParse from downloaded CVE json files
@@ -141,18 +143,26 @@ func main() {
 	}
 
 	// Create CVE directory
-	if _, err := os.Stat("CVE"); os.IsNotExist(err) {
-		os.Mkdir("CVE", 0755)
+	if _, err := os.Stat(Config.CVEPath); os.IsNotExist(err) {
+		os.Mkdir(Config.CVEPath, 0755)
 	}
 
-	for year := Config.Year; year >= 2010; year-- {
-		if _, err := os.Stat("CVE/nvdcve-1.0-" + strconv.Itoa(year) + ".json.gz"); os.IsNotExist(err) {
+	for year := Config.Year; year >= Config.YearStart; year-- {
+		if _, err := os.Stat(Config.CVEPath + "/nvdcve-1.0-" + strconv.Itoa(year) + ".json.gz"); os.IsNotExist(err) {
 			go getCVE(strconv.Itoa(year))
 		}
 	}
+
+	for year := Config.Year; year >= Config.YearStart; year-- {
+
+		JSONFile := Config.CVEPath + "/nvdcve-1.0-" + strconv.Itoa(year) + ".json"
+		fmt.Println(JSONFile)
+		//
+	}
+
 	fmt.Println("About to portmap target: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
-	//fmt.Println(targetPorts)
+
 	writeResultsInt(TargetToScan, openPorts, "OpenPorts")
 	webServer = isHTTP(TargetToScan, openPorts, webServer)
 

@@ -4,5 +4,7 @@
     "portStart": 0,
     "portEnd": 10000,
     "Threads": 50,
-    "Year": 2018
+    "CVEPath": "CVE",
+    "Year": 2018,
+    "YearStart": 2010
 }
