@@ -16,6 +16,9 @@ var targetURLS []string
 var targetEmails []string
 var targetHeaders []string
 
+// CVE map will join year and the content of that year file.
+var CVE = make(map[int]interface{})
+
 // Config type Here I create custom config type
 type config struct {
 	DicWeb    string
@@ -153,9 +156,9 @@ func main() {
 		}
 	}
 
-	CVEParse := CVEParse{}
 	for year := Config.Year; year >= Config.YearStart; year-- {
 
+		CVEParse := CVEParse{}
 		JSONFile := Config.CVEPath + "/nvdcve-1.0-" + strconv.Itoa(year) + ".json"
 		fmt.Println("Parsin: " + JSONFile)
 
@@ -167,9 +170,11 @@ func main() {
 
 		decoder := json.NewDecoder(file)
 		decoder.Decode(&CVEParse)
+		CVE[year] = CVEParse
+
 	}
 
-	fmt.Println(CVEParse.CVEItems.CVEDataMeta.ID)
+	fmt.Println(CVE[2013])
 
 	fmt.Println("About to portmap target: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
