@@ -26,6 +26,93 @@ type config struct {
 	Year      int
 }
 
+// CVEParse from downloaded CVE json files
+type CVEParse struct {
+	CVEItems []struct {
+		Cve struct {
+			DataType    string `json:"data_type"`
+			DataFormat  string `json:"data_format"`
+			DataVersion string `json:"data_version"`
+			CVEDataMeta struct {
+				ID       string `json:"ID"`
+				ASSIGNER string `json:"ASSIGNER"`
+			} `json:"CVE_data_meta"`
+			Affects struct {
+				Vendor struct {
+					VendorData []struct {
+						VendorName string `json:"vendor_name"`
+						Product    struct {
+							ProductData []struct {
+								ProductName string `json:"product_name"`
+								Version     struct {
+									VersionData []struct {
+										VersionValue string `json:"version_value"`
+									} `json:"version_data"`
+								} `json:"version"`
+							} `json:"product_data"`
+						} `json:"product"`
+					} `json:"vendor_data"`
+				} `json:"vendor"`
+			} `json:"affects"`
+			Problemtype struct {
+				ProblemtypeData []struct {
+					Description []struct {
+						Lang  string `json:"lang"`
+						Value string `json:"value"`
+					} `json:"description"`
+				} `json:"problemtype_data"`
+			} `json:"problemtype"`
+			References struct {
+				ReferenceData []struct {
+					URL string `json:"url"`
+				} `json:"reference_data"`
+			} `json:"references"`
+			Description struct {
+				DescriptionData []struct {
+					Lang  string `json:"lang"`
+					Value string `json:"value"`
+				} `json:"description_data"`
+			} `json:"description"`
+		} `json:"cve"`
+		Configurations struct {
+			CVEDataVersion string `json:"CVE_data_version"`
+			Nodes          []struct {
+				Operator string `json:"operator"`
+				Cpe      []struct {
+					Vulnerable          bool   `json:"vulnerable"`
+					Cpe22URI            string `json:"cpe22Uri"`
+					Cpe23URI            string `json:"cpe23Uri"`
+					VersionEndIncluding string `json:"versionEndIncluding,omitempty"`
+				} `json:"cpe"`
+			} `json:"nodes"`
+		} `json:"configurations"`
+		Impact struct {
+			BaseMetricV2 struct {
+				CvssV2 struct {
+					Version               string  `json:"version"`
+					VectorString          string  `json:"vectorString"`
+					AccessVector          string  `json:"accessVector"`
+					AccessComplexity      string  `json:"accessComplexity"`
+					Authentication        string  `json:"authentication"`
+					ConfidentialityImpact string  `json:"confidentialityImpact"`
+					IntegrityImpact       string  `json:"integrityImpact"`
+					AvailabilityImpact    string  `json:"availabilityImpact"`
+					BaseScore             float64 `json:"baseScore"`
+				} `json:"cvssV2"`
+				Severity                string  `json:"severity"`
+				ExploitabilityScore     float64 `json:"exploitabilityScore"`
+				ImpactScore             float64 `json:"impactScore"`
+				ObtainAllPrivilege      bool    `json:"obtainAllPrivilege"`
+				ObtainUserPrivilege     bool    `json:"obtainUserPrivilege"`
+				ObtainOtherPrivilege    bool    `json:"obtainOtherPrivilege"`
+				UserInteractionRequired bool    `json:"userInteractionRequired"`
+			} `json:"baseMetricV2"`
+		} `json:"impact"`
+		PublishedDate    string `json:"publishedDate"`
+		LastModifiedDate string `json:"lastModifiedDate"`
+	} `json:"CVE_Items"`
+}
+
 func main() {
 
 	var webServer []int
