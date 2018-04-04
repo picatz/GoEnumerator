@@ -11,6 +11,7 @@ import (
 
 func getCVE(Year string) {
 
+	defer wg.Done()
 	fileURL := "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-" + Year + ".json.gz"
 	targetDIR := "CVE/"
 	Gfile := "nvdcve-1.0-" + Year + ".json.gz"

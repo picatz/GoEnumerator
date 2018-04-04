@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"sync"
 )
 
 //globa variables
@@ -118,6 +119,8 @@ type CVEParse struct {
 	} `json:"CVE_Items"`
 }
 
+var wg sync.WaitGroup
+
 func main() {
 
 	var webServer []int
@@ -152,10 +155,11 @@ func main() {
 
 	for year := Config.Year; year >= Config.YearStart; year-- {
 		if _, err := os.Stat(Config.CVEPath + "/nvdcve-1.0-" + strconv.Itoa(year) + ".json.gz"); os.IsNotExist(err) {
+			wg.Add(1)
 			go getCVE(strconv.Itoa(year))
 		}
 	}
-
+	wg.Wait()
 	for year := Config.Year; year >= Config.YearStart; year-- {
 
 		CVEParse := CVEParse{}
