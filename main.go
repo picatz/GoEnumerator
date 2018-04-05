@@ -178,7 +178,7 @@ func main() {
 
 	}
 
-	fmt.Println(CVE[2013])
+	//	fmt.Println(CVE[2013])
 
 	fmt.Println("About to portmap target: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
@@ -218,6 +218,8 @@ func main() {
 	}
 
 	writeResultsMap(TargetToScan, targetPorts, "Banners")
+
+	searchCVE(targetPorts, CVE)
 	fmt.Println("Enumeration done!!")
 	fmt.Printf("Check the output files inside directory: %s \n", TargetToScan)
 	fmt.Println("GoEnumerator by ReK2 and the Hispagatos Hacker collective")
