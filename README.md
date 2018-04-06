@@ -17,9 +17,12 @@ Run:
 
 
 Todo:
-- Add CVE feed https://nvd.nist.gov/vuln/data-feeds#JSON_FEED [Working on that now]
-- Scan results based on banner and other fingerprinting against CVE's[ Working on this now]
-- make data enumerated available to all diff scans and checks.
+- Add CVE feed https://nvd.nist.gov/vuln/data-feeds#JSON_FEED [done]
+- Scan results based on banner and other fingerprinting against CVE's[done]
+ - need to add sort to not scan two times for same banner
+- make data enumerated available to all diff scans and checks.[working on this]
 - Create report out of tmp files
 - Create HTMl/PDF reports
 - Add option to dirbust recursevely, not sure of this yet.
+ - Make dirbust more eficient
+- refacto all the durty/hacky code after I add all the wanted options
