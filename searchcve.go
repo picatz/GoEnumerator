@@ -17,12 +17,15 @@ func searchCVE(Banners map[int]string, CVE map[int]interface{}) {
 		for _, word := range BannerSlice {
 			fmt.Println(word)
 			for _, Data := range CVE {
-				for item := range Data.(CVEParse).CVEItems {
-					for n, Vendor := range Data.(CVEParse).CVEItems[item].Cve.Affects.Vendor.VendorData {
-						fmt.Println(Vendor[n].VendorName)
-						//if Data.(CVEParse).CVEItems[item].Cve.Affects.Vendor[word] {
-						//fmt.Println(Vendor)
-						//}
+				for _, cveitems := range Data.(CVEParse).CVEItems {
+					for _, Vendor := range cveitems.Cve.Affects.Vendor.VendorData {
+						for _, vname := range Vendor.Product.ProductData {
+
+							fmt.Println(vname.ProductName)
+							//}
+							//if Data.(CVEParse).CVEItems[item].Cve.Affects.Vendor[word] {
+							//fmt.Println(Vendor)
+						}
 					}
 				}
 			}
