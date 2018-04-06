@@ -20,6 +20,7 @@ Todo:
 - Add CVE feed https://nvd.nist.gov/vuln/data-feeds#JSON_FEED [done]
 - Scan results based on banner and other fingerprinting against CVE's[done]
  - need to add sort to not scan two times for same banner
+ - Just notice I also need to check for Vendor not just Product
 - make data enumerated available to all diff scans and checks.[working on this]
 - Create report out of tmp files
 - Create HTMl/PDF reports
