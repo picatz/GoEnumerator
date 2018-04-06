@@ -12,6 +12,7 @@ func searchCVE(Banners map[int]string, CVE map[int]interface{}) {
 	//var word string
 
 	for _, banner := range Banners {
+		fmt.Printf("Testing for: %s\n", banner)
 		re := regexp.MustCompile("[-,/,(,),_]")
 		NewBanner := re.ReplaceAllString(strings.TrimSpace(banner), " ")
 		BannerSlice := strings.Split(NewBanner, " ")
@@ -20,13 +21,15 @@ func searchCVE(Banners map[int]string, CVE map[int]interface{}) {
 				for _, Vendor := range cveitems.Cve.Affects.Vendor.VendorData {
 					for _, vname := range Vendor.Product.ProductData {
 
-						if strings.Contains(vname.ProductName, BannerSlice[0]) {
-							fmt.Println(BannerSlice[0])
-							fmt.Println("Match " + vname.ProductName)
+						if CaseInContains(vname.ProductName, BannerSlice[0]) {
+							//fmt.Println(BannerSlice[0])
+							//fmt.Println("Match " + vname.ProductName)
+							for _, version := range vname.Version.VersionData {
+								if CaseInContains(version.VersionValue, BannerSlice[1]) {
+									fmt.Println(version.VersionValue + " Is vulnerable")
+								}
+							}
 						}
-						//}
-						//if Data.(CVEParse).CVEItems[item].Cve.Affects.Vendor[word] {
-						//fmt.Println(Vendor)
 					}
 				}
 			}
@@ -34,4 +37,10 @@ func searchCVE(Banners map[int]string, CVE map[int]interface{}) {
 
 	}
 
+}
+
+// CaseInContains small funtion to help with ignoring case on our search above
+func CaseInContains(s, substr string) bool {
+	s, substr = strings.ToUpper(s), strings.ToUpper(substr)
+	return strings.Contains(s, substr)
 }
