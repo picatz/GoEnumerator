@@ -24,7 +24,7 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	targetURL.Path = filePath
 
 	// increment timeout to avoid url fetch errors
-	timeout := time.Duration(5 * time.Second)
+	timeout := time.Duration(10 * time.Second)
 	client := http.Client{
 		Timeout: timeout,
 	}
@@ -33,7 +33,8 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	// downloading the entire file
 	response, err := client.Head(targetURL.String())
 	if err != nil {
-		log.Fatal("Error fetching ", targetURL.String())
+		log.Println("Error fetching ", targetURL.String())
+		response.Body.Close()
 	}
 
 	// Added this to avoid a random bug "panic: runtime error: invalid memory address or nil pointer dereference"
