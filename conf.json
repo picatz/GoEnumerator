@@ -3,7 +3,7 @@
     "dicPass": "/home/rek2/herramientas/diccionarios/SecLists/Passwords/rockyou.txt",
     "portStart": 0,
     "portEnd": 10000,
-    "Threads": 40,
+    "Threads": 10,
     "CVEPath": "CVE",
     "Year": 2018,
     "YearStart": 2010

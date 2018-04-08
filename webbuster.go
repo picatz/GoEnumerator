@@ -2,10 +2,12 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
+	"time"
 )
 
 // perform an HTTP HEAD and see if the path exists.
@@ -21,18 +23,25 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	// Set the part of the URL after the host name
 	targetURL.Path = filePath
 
+	// increment timeout to avoid url fetch errors
+	timeout := time.Duration(5 * time.Second)
+	client := http.Client{
+		Timeout: timeout,
+	}
+
 	// Perform a HEAD only, checking status without
 	// downloading the entire file
-	response, err := http.Head(targetURL.String())
+	response, err := client.Head(targetURL.String())
 	if err != nil {
-		log.Println("Error fetching ", targetURL.String())
+		log.Fatal("Error fetching ", targetURL.String())
 	}
 
 	// Added this to avoid a random bug "panic: runtime error: invalid memory address or nil pointer dereference"
 	defer response.Body.Close()
 	// If server returns 200 OK file can be downloaded
 	if response.StatusCode == 200 {
-		log.Println(targetURL.String())
+		//log.Println(targetURL.String())
+		fmt.Printf("*")
 		// increment slice with 200 result
 		webBusterResult = append(webBusterResult, targetURL.String())
 

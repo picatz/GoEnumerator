@@ -16,7 +16,7 @@ func isHTTP(TargetToScan string, openPorts []int, webServer []int) []int {
 
 		if err == nil {
 			webServer = append(webServer, port)
-			fmt.Println("Found a webserver on: ", port)
+			fmt.Println("+ Found a webserver on: ", port)
 		}
 
 	}
