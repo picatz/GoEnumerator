@@ -76,6 +76,8 @@ func webBuster(url string, dicWeb string, Threads int, webBusterResult []string)
 
 	// Read each line and do an HTTP HEAD
 	scanner := bufio.NewScanner(wordlistFile)
+
+	fmt.Println("Starting DirBusting:  ")
 	for scanner.Scan() {
 		go checkIfURLExists(checkIfbaseURL, scanner.Text(), doneChannel)
 		activeThreads++

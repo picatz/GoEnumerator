@@ -35,7 +35,7 @@ func getEmails(url string) {
 		// Remove "mailto prefix and the trailing quote or question mark
 		// by performing a slice operation to extract the substring
 		cleanedMatch := match[8 : len(match)-1]
-		fmt.Println(cleanedMatch)
+		fmt.Println("+ Found Email")
 		targetEmails = append(targetEmails, cleanedMatch)
 	}
 }

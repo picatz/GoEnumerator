@@ -13,7 +13,7 @@ func searchCVE(Banners map[int]string, CVE map[int]interface{}) {
 	var word string
 	var n int
 	for _, banner := range Banners {
-		fmt.Printf("Testing for: %s\n", banner)
+		fmt.Printf("\nTesting for: %s\n", banner)
 		re := regexp.MustCompile("[-,/,(,),_]")
 		NewBanner := re.ReplaceAllString(strings.TrimSpace(banner), " ")
 		BannerSlice := strings.Split(NewBanner, " ")
