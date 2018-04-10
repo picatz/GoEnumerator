@@ -5,8 +5,8 @@ A personal tool in GO for my usual first enumeration steps on a target
 I will release precompiled packages when first release, but in the mean time:
 
 What do you need?
-- Golang
-- goquery
+- Go
+- Goquery - go get github.com/PuerkitoBio/goquery
 
 ---
 Build for GNU/Linux  
