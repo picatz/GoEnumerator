@@ -30,6 +30,8 @@ Todo:
 - Scan results based on banner and other fingerprinting against CVE's[done]
  - need to add sort to not scan two times for same banner
  - Just notice I also need to check for Vendor not just Product
+ - Add found CVE's to file [done]
+ - Add links to CVE's description online[done]
 - make data enumerated available to all diff scans and checks.[working on this]
 - Create report out of tmp files
 - Create HTMl/PDF reports
