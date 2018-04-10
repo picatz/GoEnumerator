@@ -29,7 +29,7 @@ func searchCVE(Banners map[int]string, CVE map[int]interface{}) {
 								if CaseInContains(vname.ProductName, word) {
 									for _, version := range vname.Version.VersionData {
 										if strings.EqualFold(version.VersionValue, BannerSlice[n+1]) {
-											fmt.Printf("%s %s  is vulnerable\n", vname.ProductName, version.VersionValue)
+											fmt.Printf("%s %s  is vulnerable to %s\n", vname.ProductName, version.VersionValue, cveitems.Cve.CVEDataMeta.ID)
 										}
 									}
 								}
