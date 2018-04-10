@@ -25,7 +25,7 @@ func getURLS(url string) {
 	doc.Find("a").Each(func(i int, s *goquery.Selection) {
 		href, exists := s.Attr("href")
 		if exists {
-			fmt.Println(href)
+			fmt.Printf("+ Found url: %s\n", href)
 			targetURLS = append(targetURLS, href)
 		}
 	})
