@@ -31,4 +31,4 @@ Todo:
 - refacto all the durty/hacky code after I add all the wanted options
 - Grab robots.txt[done]
 - Grab comments[done]
- 
+- Get JavaScript 
