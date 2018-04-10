@@ -16,6 +16,7 @@ var targetComments []string
 var targetURLS []string
 var targetEmails []string
 var targetHeaders []string
+var targetRobots string
 
 // CVE map will join year and the content of that year file.
 var CVE = make(map[int]interface{})
@@ -209,6 +210,10 @@ func main() {
 			getComments(url)
 			CFile := "CommentsPort-" + strconv.Itoa(port)
 			writeResultsString(TargetToScan, targetComments, CFile)
+
+			getRobots(url + "/robots.txt")
+			RFile := "robotx.txt-" + strconv.Itoa(port)
+			writeResultsSingle(TargetToScan, targetRobots, RFile)
 
 			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
 			WBFile := "webBustingResultsPort-" + strconv.Itoa(port)
