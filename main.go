@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 	"sync"
 )
 
@@ -134,6 +135,8 @@ func main() {
 	}
 
 	TargetToScan := os.Args[1]
+	var striphttp = strings.NewReplacer("http://", "", "https://", "")
+	TargetToScan = striphttp.Replace(TargetToScan)
 
 	file, _ := os.Open("conf.json")
 	defer file.Close()

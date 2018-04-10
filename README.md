@@ -11,9 +11,11 @@ Build for Darwin
 Build for Windows
 - make windows
 
-Run:  
-- GoEnumerator hispagatos.org
-- do not add http/https in front.
+Run:
+
+```  
+  ./GoEnumerator hispagatos.org
+```
 
 
 Todo:
@@ -27,3 +29,6 @@ Todo:
 - Add option to dirbust recursevely, not sure of this yet.
  - Make dirbust more eficient
 - refacto all the durty/hacky code after I add all the wanted options
+- Grab robots.txt[done]
+- Grab comments[done]
+ 
