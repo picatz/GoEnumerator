@@ -25,7 +25,7 @@ Run:
 ```
 
 
-Todo:
+# To do
 - [x] Add CVE feed https://nvd.nist.gov/vuln/data-feeds#JSON_FEED.
 - [x] Scan results based on banner and other fingerprinting against CVE's.
  - [ ] need to add sort to not scan two times for same banner.
