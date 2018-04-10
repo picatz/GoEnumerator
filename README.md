@@ -18,6 +18,11 @@ Build for Darwin
 Build for Windows
 - make windows
 
+
+Configure:
+- Edit conf.json and change it to your personal dictionary for web enumeration and password dictionary
+
+
 Run:
 
 ```  
