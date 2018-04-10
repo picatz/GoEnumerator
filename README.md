@@ -41,3 +41,6 @@ Todo:
 - Grab robots.txt[done]
 - Grab comments[done]
 - Get JavaScript 
+- Add optional Whois for domain and IP
+- Add optional dns lookup, check for more domains pointing to that ip
+- Add optional dns enumeration, trying to dns brute force for more domains
