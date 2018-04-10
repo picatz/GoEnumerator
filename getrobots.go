@@ -23,6 +23,6 @@ func getRobots(url string) {
 		log.Println("Error reading HTTP body. ", err)
 	}
 
-	fmt.Printf("+ Found robots.txt\n %s", body)
+	fmt.Printf("\n+ Found robots.txt\n %s\n", body)
 	targetRobots = string(body)
 }

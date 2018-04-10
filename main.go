@@ -228,8 +228,9 @@ func main() {
 	writeResultsMap(TargetToScan, targetPorts, "Banners")
 
 	searchCVE(targetPorts, CVE)
+	fmt.Printf("\n ************************************************\n")
 	fmt.Println("Enumeration done!!")
-	fmt.Printf("Check the output files inside directory: %s \n", TargetToScan)
+	fmt.Printf("\nCheck the output files inside directory: %s \n", TargetToScan)
 	fmt.Println("GoEnumerator by ReK2 and the Hispagatos Hacker collective")
 	fmt.Println("GPL v3.0, 2018 check the LICENSE file for details")
 
