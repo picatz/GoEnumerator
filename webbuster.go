@@ -47,7 +47,7 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	// If server returns 200 OK file can be downloaded
 	if response.StatusCode == 200 {
 		//log.Println(targetURL.String())
-		fmt.Printf("*")
+		fmt.Printf("+ %s\n", targetURL.String())
 		// increment slice with 200 result
 		webBusterResult = append(webBusterResult, targetURL.String())
 

@@ -36,7 +36,7 @@ func grabBanner(ip string, port int, doneChannel chan bool) {
 	// append open port to slice
 	openPorts = append(openPorts, port)
 
-	log.Printf("Port %d: Open\n", port)
+	fmt.Printf("+ Port %d: Open\n", port)
 	// See if server offers anything to read
 	buffer := make([]byte, 4096)
 	connection.SetReadDeadline(time.Now().Add(time.Second * 5))
@@ -46,7 +46,7 @@ func grabBanner(ip string, port int, doneChannel chan bool) {
 		doneChannel <- true
 		return
 	}
-	log.Printf("Banner from port %d\n%s\n", port,
+	log.Printf("+ Banner of port %d\n%s\n", port,
 		buffer[0:numBytesRead])
 	// here we add to map port and banner
 	targetPorts[port] = string(buffer[0:numBytesRead])
