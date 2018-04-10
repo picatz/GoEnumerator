@@ -26,23 +26,24 @@ Run:
 
 
 Todo:
-- Add CVE feed https://nvd.nist.gov/vuln/data-feeds#JSON_FEED [done]
-- Scan results based on banner and other fingerprinting against CVE's[done]
- - need to add sort to not scan two times for same banner
- - Just notice I also need to check for Vendor not just Product
- - Add found CVE's to file [done]
- - Add links to CVE's description online[done]
-- make data enumerated available to all diff scans and checks.[working on this]
-- Create report out of tmp files
-- Create HTMl/PDF reports
-- Add option to dirbust recursevely, not sure of this yet.
- - Make dirbust more eficient
-- refacto all the durty/hacky code after I add all the wanted options
-- Grab robots.txt[done]
-- Grab comments[done]
-- Get JavaScript 
-- Add optional Whois for domain and IP
-- Add optional dns lookup, check for more domains pointing to that ip
-- Add optional dns enumeration, trying to dns brute force for more domains
+- [x] Add CVE feed https://nvd.nist.gov/vuln/data-feeds#JSON_FEED.
+- [x] Scan results based on banner and other fingerprinting against CVE's.
+ - [ ] need to add sort to not scan two times for same banner.
+ - [ ] Just notice I also need to check for Vendor not just Product.
+ - [x] Add found CVE's to file.
+ - [x] Add links to CVE's description online.
+- [x] Make data enumerated available to all diff scans and checks.
+- [ ] Create report out of tmp files.
+- [ ] Create HTMl/PDF reports.
+- [ ] Add option to dirbust recursevely, not sure of this yet.
+ - [ ] Make dirbust more eficient.
+- [ ] Refactor all the durty/hacky code after I add all the wanted options.
+- [x] Grab robots.txt.
+- [x] Grab comments.
+- [ ]  Get JavaScript. 
+- [ ] Add optional Whois for domain and IP.
+- [ ] Add optional dns lookup, check for more domains pointing to that ip.
+- [ ] Add optional dns enumeration, trying to dns brute force for more domains.
+
 
 ![GoEnumerator Demo Animated Gif](https://github.com/ReK2Fernandez/GoEnumerator/blob/master/demo-goenumerator.gif)
