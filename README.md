@@ -1,5 +1,5 @@
 # GoEnumerator
-A tool wrote in GO for very fast pasive enumeration of a target
+A personal tool in GO for my usual first enumeration steps on a target
 
 ---
 Build for GNU/Linux  
