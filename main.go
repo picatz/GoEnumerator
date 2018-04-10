@@ -212,7 +212,7 @@ func main() {
 			writeResultsString(TargetToScan, targetComments, CFile)
 
 			getRobots(url + "/robots.txt")
-			RFile := "robotx.txt-" + strconv.Itoa(port)
+			RFile := "robots.txt-" + strconv.Itoa(port)
 			writeResultsSingle(TargetToScan, targetRobots, RFile)
 
 			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
