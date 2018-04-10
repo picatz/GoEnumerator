@@ -18,6 +18,7 @@ var targetURLS []string
 var targetEmails []string
 var targetHeaders []string
 var targetRobots string
+var targetCves []string
 
 // CVE map will join year and the content of that year file.
 var CVE = make(map[int]interface{})
@@ -228,6 +229,8 @@ func main() {
 	writeResultsMap(TargetToScan, targetPorts, "Banners")
 
 	searchCVE(targetPorts, CVE)
+	writeResultsString(TargetToScan, targetCves, "FoundVulnerabilities")
+
 	fmt.Printf("\n ************************************************\n")
 	fmt.Println("Enumeration done!!")
 	fmt.Printf("\nCheck the output files inside directory: %s \n", TargetToScan)
