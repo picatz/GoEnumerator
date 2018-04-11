@@ -37,6 +37,8 @@ Run:
  - [ ] Just notice I also need to check for Vendor not just Product.
  - [x] Add found CVE's to file.
  - [x] Add links to CVE's description online.
+- [x] Get list of updated list of CMS's
+ - [ ] Use check if target is a known CMS using the CMS list
 - [x] Make data enumerated available to all diff scans and checks.
 - [ ] Create report out of tmp files.
 - [ ] Create HTMl/PDF reports.
