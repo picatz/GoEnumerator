@@ -10,7 +10,7 @@ import (
 
 func getCMSList(url string) []string {
 	var CMSList []string
-
+	fmt.Printf("\n+ Getting a new copy of list of known CMS's from wikipedia\n")
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -33,7 +33,7 @@ func getCMSList(url string) []string {
 					if j == 0 {
 
 						if len(strings.TrimSpace(s2.Text())) != 0 {
-							fmt.Println(s2.Text())
+							//fmt.Println(s2.Text())
 							CMSList = append(CMSList, s2.Text())
 						}
 					}
