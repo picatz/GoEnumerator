@@ -158,13 +158,33 @@ func main() {
 		os.Mkdir(Config.CVEPath, 0755)
 	}
 
+	// If list of CMS's do not exist download a copy
+	if _, err := os.Stat(Config.CVEPath + "/CMSList"); os.IsNotExist(err) {
+		CMSUrl := "https://en.wikipedia.org/wiki/List_of_content_management_systems"
+		GetCMSList := getCMSList(CMSUrl)
+		CMSFile := Config.CVEPath + "/CMSList"
+		file, err := os.Create(CMSFile)
+		if err != nil {
+			fmt.Printf("Error opening %s because of: %s", CMSFile, err)
+
+		}
+
+		defer file.Close()
+		for _, line := range GetCMSList {
+			file.WriteString(line + "\n")
+		}
+
+	}
+
 	for year := Config.Year; year >= Config.YearStart; year-- {
 		if _, err := os.Stat(Config.CVEPath + "/nvdcve-1.0-" + strconv.Itoa(year) + ".json.gz"); os.IsNotExist(err) {
 			wg.Add(1)
 			go getCVE(strconv.Itoa(year))
 		}
 	}
+
 	wg.Wait()
+
 	for year := Config.Year; year >= Config.YearStart; year-- {
 
 		CVEParse := CVEParse{}
@@ -182,8 +202,6 @@ func main() {
 		CVE[year] = CVEParse
 
 	}
-
-	//	fmt.Println(CVE[2013])
 
 	fmt.Println("About to portmap target: ", TargetToScan)
 	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
