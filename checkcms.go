@@ -12,7 +12,7 @@ import (
 
 // open url and inspect html for any of the words in our CMS list
 
-func checkCMS(url string, path string) {
+func checkCMS(url string, path string, port int) {
 
 	response, err := http.Get(url)
 	if err != nil {
@@ -31,8 +31,9 @@ func checkCMS(url string, path string) {
 
 	for scanner.Scan() {
 		if strings.Contains(string(body), scanner.Text()) {
-			fmt.Printf("+ Found possible CMS: %s", scanner.Text())
+			fmt.Printf("\n+ Found possible CMS: %s\n", scanner.Text())
 			targetCMS = append(targetCMS, scanner.Text())
+			targetPorts[port] = string(scanner.Text())
 		}
 	}
 

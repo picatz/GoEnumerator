@@ -210,6 +210,7 @@ func main() {
 	writeResultsInt(TargetToScan, openPorts, "OpenPorts")
 	webServer = isHTTP(TargetToScan, openPorts, webServer)
 
+	// if port is a webserver or talks http protocols then run this
 	if len(webServer) > 0 {
 		var url string
 		for _, port := range webServer {
@@ -238,7 +239,7 @@ func main() {
 			RFile := "robots.txt-" + strconv.Itoa(port)
 			writeResultsSingle(TargetToScan, targetRobots, RFile)
 
-			checkCMS(url, Config.CVEPath)
+			checkCMS(url, Config.CVEPath, port)
 			CMSFile := "PossibleCMS-port-" + strconv.Itoa(port)
 			writeResultsString(TargetToScan, targetCMS, CMSFile)
 

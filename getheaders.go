@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,6 +9,9 @@ import (
 )
 
 func getHeaders(url string, port int) {
+
+	// This is to ignore self made TLS certs
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 
 	// Perform HTTP HEAD
 	response, err := http.Head(url)

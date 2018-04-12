@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"crypto/tls"
 	"fmt"
 	"log"
 	"net/http"
@@ -22,7 +23,8 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 
 	// Set the part of the URL after the host name
 	targetURL.Path = filePath
-
+	// This is to ignore self made TLS certs
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	// increment timeout to avoid url fetch errors
 	timeout := time.Duration(5 * time.Second)
 	//keepAliveTimeout := 600 * time.Second
@@ -47,11 +49,12 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	// If server returns 200 OK file can be downloaded
 	if response.StatusCode == 200 {
 		//log.Println(targetURL.String())
-		fmt.Printf("+ %s\n", targetURL.String())
+		fmt.Printf("\n+ %s\n", targetURL.String())
 		// increment slice with 200 result
 		webBusterResult = append(webBusterResult, targetURL.String())
 
 	}
+
 	// Signal completion so next thread can start
 	doneChannel <- true
 	return
