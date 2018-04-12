@@ -38,7 +38,6 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	response, err := client.Head(targetURL.String())
 	if err != nil {
 		log.Println("Error fetching ", targetURL.String())
-		//response.Body.Close()
 		return
 	}
 
