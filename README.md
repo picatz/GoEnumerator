@@ -38,9 +38,11 @@ Run:
  - [x] Add found CVE's to file.
  - [x] Add links to CVE's description online.
 - [x] Get list of updated list of CMS's
- - [ ] Use check if target is a known CMS using the CMS list
+ - [x] Use check if target is a known CMS using the CMS list
+ - [ ] Make check for CMS more efficient when done adding main features
+ - [ ] Make check for CMS also use go routines
 - [x] Make data enumerated available to all diff scans and checks.
-- [ ] Create report out of tmp files.
+- [ ] Create report instead of writing files.
 - [ ] Create HTMl/PDF reports.
 - [ ] Add option to dirbust recursevely, not sure of this yet.
  - [ ] Make dirbust more eficient.
