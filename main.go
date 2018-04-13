@@ -20,6 +20,7 @@ var targetHeaders []string
 var targetRobots string
 var targetCves []string
 var targetCMS []string
+var targetLogAdmin []string
 
 // CVE map will join year and the content of that year file.
 var CVE = make(map[int]interface{})

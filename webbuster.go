@@ -8,8 +8,21 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"strings"
 	"time"
 )
+
+// IsLoginAdmin here we check if found folder or file is a login or admin portal
+func IsLoginAdmin(word string) bool {
+	adminlogin := []string{"admin", "login", "Login", "Admin", "control", "panel", "Control", "Panel"}
+
+	for _, list := range adminlogin {
+		if strings.Contains(word, list) {
+			return true
+		}
+	}
+	return false
+}
 
 // perform an HTTP HEAD and see if the path exists.
 // If the path returns a 200 OK print out the path
@@ -49,6 +62,11 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	if response.StatusCode == 200 {
 		//log.Println(targetURL.String())
 		fmt.Printf("\n+ %s\n", targetURL.String())
+		// Check if dir found or file is a login or admin
+		if IsLoginAdmin(targetURL.String()) {
+			fmt.Printf("\n+ Found possible admin/login entrance: %s\n", targetURL.String())
+			targetLogAdmin = append(targetLogAdmin, targetURL.String())
+		}
 		// increment slice with 200 result
 		webBusterResult = append(webBusterResult, targetURL.String())
 
