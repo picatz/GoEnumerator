@@ -49,6 +49,7 @@ Run:
 - [ ] Refactor all the durty/hacky code after I add all the wanted options.
 - [x] Grab robots.txt.
 - [x] Grab comments.
+- [x] Check for admin or login pages.
 - [ ]  Get JavaScript. 
 - [ ] Add optional Whois for domain and IP.
 - [ ] Add optional dns lookup, check for more domains pointing to that ip.
