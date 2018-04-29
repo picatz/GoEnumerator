@@ -137,9 +137,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	TargetToScan := os.Args[1]
+	targetToScan := os.Args[1]
 	var striphttp = strings.NewReplacer("http://", "", "https://", "")
-	TargetToScan = striphttp.Replace(TargetToScan)
+	targetToScan = striphttp.Replace(targetToScan)
 
 	file, _ := os.Open("conf.json")
 	defer file.Close()
@@ -151,8 +151,8 @@ func main() {
 	}
 
 	// Create output directory
-	if _, err := os.Stat(TargetToScan); os.IsNotExist(err) {
-		os.Mkdir(TargetToScan, 0750)
+	if _, err := os.Stat(targetToScan); os.IsNotExist(err) {
+		os.Mkdir(targetToScan, 0750)
 	}
 
 	// Create CVE directory
@@ -205,60 +205,60 @@ func main() {
 
 	}
 
-	fmt.Println("About to portmap target: ", TargetToScan)
-	portScan(TargetToScan, Config.PortStart, Config.PortEnd, openPorts)
-
-	writeResultsInt(TargetToScan, openPorts, "OpenPorts")
-	webServer = isHTTP(TargetToScan, openPorts, webServer)
+	fmt.Println("About to portmap target: ", targetToScan)
+	portScan(targetToScan, Config.PortStart, Config.PortEnd)
+	fmt.Println(openPorts)
+	writeResultsInt(targetToScan, openPorts, "OpenPorts")
+	webServer = isHTTP(targetToScan, openPorts, webServer)
 
 	// if port is a webserver or talks http protocols then run this
 	if len(webServer) > 0 {
 		var url string
 		for _, port := range webServer {
 			if port == 443 {
-				url = "https://" + TargetToScan + ":" + strconv.Itoa(port)
+				url = "https://" + targetToScan + ":" + strconv.Itoa(port)
 			} else {
-				url = "http://" + TargetToScan + ":" + strconv.Itoa(port)
+				url = "http://" + targetToScan + ":" + strconv.Itoa(port)
 			}
 			getHeaders(url, port)
 			HFile := "HeadersPort-" + strconv.Itoa(port)
-			writeResultsString(TargetToScan, targetHeaders, HFile)
+			writeResultsString(targetToScan, targetHeaders, HFile)
 
 			getEmails(url)
 			EFile := "EmailsPort-" + strconv.Itoa(port)
-			writeResultsString(TargetToScan, targetEmails, EFile)
+			writeResultsString(targetToScan, targetEmails, EFile)
 
 			getURLS(url)
 			UFile := "URLSPort-" + strconv.Itoa(port)
-			writeResultsString(TargetToScan, targetURLS, UFile)
+			writeResultsString(targetToScan, targetURLS, UFile)
 
 			getComments(url)
 			CFile := "CommentsPort-" + strconv.Itoa(port)
-			writeResultsString(TargetToScan, targetComments, CFile)
+			writeResultsString(targetToScan, targetComments, CFile)
 
 			getRobots(url + "/robots.txt")
 			RFile := "robots.txt-" + strconv.Itoa(port)
-			writeResultsSingle(TargetToScan, targetRobots, RFile)
+			writeResultsSingle(targetToScan, targetRobots, RFile)
 
 			checkCMS(url, Config.CVEPath, port)
 			CMSFile := "PossibleCMS-port-" + strconv.Itoa(port)
-			writeResultsString(TargetToScan, targetCMS, CMSFile)
+			writeResultsString(targetToScan, targetCMS, CMSFile)
 
-			webBuster(url, Config.DicWeb, Config.Threads, webBusterResult)
+			webBuster(url, Config.DicWeb, Config.Threads)
 			WBFile := "webBustingResultsPort-" + strconv.Itoa(port)
-			writeResultsString(TargetToScan, webBusterResult, WBFile)
+			writeResultsString(targetToScan, webBusterResult, WBFile)
 
 		}
 	}
 
-	writeResultsMap(TargetToScan, targetPorts, "Banners")
+	writeResultsMap(targetToScan, targetPorts, "Banners")
 
 	searchCVE(targetPorts, CVE)
-	writeResultsString(TargetToScan, targetCves, "FoundVulnerabilities")
+	writeResultsString(targetToScan, targetCves, "FoundVulnerabilities")
 
 	fmt.Printf("\n ************************************************\n")
 	fmt.Println("Enumeration done!!")
-	fmt.Printf("\nCheck the output files inside directory: %s \n", TargetToScan)
+	fmt.Printf("\nCheck the output files inside directory: %s \n", targetToScan)
 	fmt.Println("GoEnumerator by ReK2 and the Hispagatos Hacker collective")
 	fmt.Println("GPL v3.0, 2018 check the LICENSE file for details")
 

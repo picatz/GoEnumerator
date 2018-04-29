@@ -5,53 +5,70 @@ import (
 	"log"
 	"net"
 	"strconv"
+	"sync"
 	"time"
 )
 
-func portScan(TargetToScan string, PortStart int, PortEnd int, openPorts []int) []int {
-	activeThreads := 0
-	doneChannel := make(chan bool)
+func portScan(targetToScan string, PortStart int, PortEnd int) {
+	resultChan := make(chan int)
 
+	var wg sync.WaitGroup
 	for port := PortStart; port <= PortEnd; port++ {
-		go grabBanner(TargetToScan, port, doneChannel)
-		activeThreads++
+		wg.Add(1)
+
+		go func(p int) {
+			open := grabBanner(targetToScan, p)
+			if open != false {
+				resultChan <- p
+			}
+			wg.Done()
+		}(port)
 	}
 
-	// Wait for all threads to finish
-	for activeThreads > 0 {
-		<-doneChannel
-		activeThreads--
+	go func() {
+		wg.Wait()
+		close(resultChan)
+	}()
+
+	for port := range resultChan {
+		openPorts = append(openPorts, port)
+		fmt.Println(port)
 	}
-	return openPorts
+
+	fmt.Println(openPorts)
+	//	return openPorts
 }
 
-func grabBanner(ip string, port int, doneChannel chan bool) {
+func grabBanner(ip string, port int) bool {
+	// Your testing code here. Return an error, or not.
+
+	var open bool
 	connection, err := net.DialTimeout(
 		"tcp",
 		ip+":"+strconv.Itoa(port),
-		time.Second*10)
+		time.Second*20)
+
 	if err != nil {
-		doneChannel <- true
-		return
+		open = false
+		return open
 	}
-	// append open port to slice
-	openPorts = append(openPorts, port)
 
 	fmt.Printf("+ Port %d: Open\n", port)
 	// See if server offers anything to read
 	buffer := make([]byte, 4096)
 	connection.SetReadDeadline(time.Now().Add(time.Second * 5))
-	// Set timeout
 	numBytesRead, err := connection.Read(buffer)
+
 	if err != nil {
-		doneChannel <- true
-		return
+		fmt.Println("No banner")
+		open = true
+		return open
 	}
+
 	log.Printf("+ Banner of port %d\n%s\n", port,
 		buffer[0:numBytesRead])
 	// here we add to map port and banner
 	targetPorts[port] = string(buffer[0:numBytesRead])
-
-	doneChannel <- true
-	return
+	open = true
+	return open
 }

@@ -77,7 +77,7 @@ func checkIfURLExists(checkIfbaseURL, filePath string, doneChannel chan bool) {
 	return
 }
 
-func webBuster(url string, dicWeb string, Threads int, webBusterResult []string) {
+func webBuster(url string, dicWeb string, Threads int) {
 	// Load command line arguments
 	wordlistFilename := dicWeb
 	checkIfbaseURL := url
