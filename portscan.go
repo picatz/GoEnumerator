@@ -32,11 +32,8 @@ func portScan(targetToScan string, PortStart int, PortEnd int) {
 
 	for port := range resultChan {
 		openPorts = append(openPorts, port)
-		fmt.Println(port)
 	}
 
-	fmt.Println(openPorts)
-	//	return openPorts
 }
 
 func grabBanner(ip string, port int) bool {
@@ -60,7 +57,7 @@ func grabBanner(ip string, port int) bool {
 	numBytesRead, err := connection.Read(buffer)
 
 	if err != nil {
-		fmt.Println("No banner")
+		//		fmt.Println("No banner")
 		open = true
 		return open
 	}
