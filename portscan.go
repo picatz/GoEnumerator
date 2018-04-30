@@ -79,7 +79,7 @@ func grabBanner(ip string, port int) bool {
 		return true
 	}
 
-	log.Printf("\n+ Banner of port %d\n%s\n", port, buffer[0:numBytesRead])
+	fmt.Printf("\n+ Banner of port %d\n%s\n", port, buffer[0:numBytesRead])
 	// here we add to map port and banner
 	// ******* MAPS ARE NOT SAFE FOR CONCURRENT WRITERS ******
 	// ******************* CHANGE THIS *******************
