@@ -2,70 +2,87 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"strconv"
 	"sync"
 	"time"
 )
 
-func portScan(targetToScan string, PortStart int, PortEnd int) {
-	resultChan := make(chan int)
+// startBanner spins up a handful of async workers
+func startBannerGrabbers(num int, target string, portsIn <-chan int) <-chan int {
+	portsOut := make(chan int)
 
 	var wg sync.WaitGroup
-	for port := PortStart; port <= PortEnd; port++ {
-		wg.Add(1)
 
-		go func(p int) {
-			open := grabBanner(targetToScan, p)
-			if open != false {
-				resultChan <- p
+	wg.Add(num)
+
+	for i := 0; i < num; i++ {
+		go func() {
+			for p := range portsIn {
+				if grabBanner(target, p) {
+					portsOut <- p
+				}
 			}
 			wg.Done()
-		}(port)
+		}()
 	}
 
 	go func() {
 		wg.Wait()
-		close(resultChan)
+		close(portsOut)
 	}()
 
+	return portsOut
+
+}
+
+func portScan(targetToScan string, portStart int, portEnd int) []int {
+	ports := make(chan int)
+
+	go func() {
+		for port := portStart; port <= portEnd; port++ {
+			ports <- port
+		}
+		close(ports)
+	}()
+
+	resultChan := startBannerGrabbers(16, targetToScan, ports)
+
+	//var openPorts []int
 	for port := range resultChan {
 		openPorts = append(openPorts, port)
 	}
 
+	return openPorts
 }
 
-func grabBanner(ip string, port int) bool {
-	// Your testing code here. Return an error, or not.
+//var targetPorts = make(map[int]string)
 
-	var open bool
+func grabBanner(ip string, port int) bool {
 	connection, err := net.DialTimeout(
 		"tcp",
 		ip+":"+strconv.Itoa(port),
-		time.Second*20)
+		time.Second*5)
 
 	if err != nil {
-		open = false
-		return open
+		fmt.Printf(".")
+		return false
 	}
+	defer connection.Close() // you should close this!
 
-	fmt.Printf("+ Port %d: Open\n", port)
-	// See if server offers anything to read
+	fmt.Printf("\n+ Port %d: Open\n", port)
 	buffer := make([]byte, 4096)
 	connection.SetReadDeadline(time.Now().Add(time.Second * 5))
 	numBytesRead, err := connection.Read(buffer)
 
 	if err != nil {
-		//		fmt.Println("No banner")
-		open = true
-		return open
+		return true
 	}
 
-	log.Printf("+ Banner of port %d\n%s\n", port,
-		buffer[0:numBytesRead])
 	// here we add to map port and banner
+	// ******* MAPS ARE NOT SAFE FOR CONCURRENT WRITERS ******
+	// ******************* CHANGE THIS *******************
 	targetPorts[port] = string(buffer[0:numBytesRead])
-	open = true
-	return open
+
+	return true
 }
